@@ -88,6 +88,7 @@ def gener_mapper(source_data):
             1].upper() + ',jdbcType=' + type + '},\n'
 
     resultstr = resultstr + resultpara[:-2] + ')'
+    return resultstr
 
 def gener_typehandler(source_data):
     resultstr = ""
@@ -140,9 +141,12 @@ def gener_typehandler(source_data):
         str_property_single_list= str1.split()
         #print(str_property_single_list[0])
         #print(str_property_single_list[1])
-        result_propertys= result_propertys+'record['+str(i)+'] = item.get'+str_property_single_list[0].title()+'();'
+        #result_propertys= result_propertys+'record['+str(i)+'] = item.get'+str_property_single_list[0].title()+'();'
+        result_propertys = result_propertys + 'record[' + str(i) + '] = item.get' + str_property_single_list[0].replace('_', '').upper() + '();'
+
         result_propertys1=result_propertys1+type_name+'.'+str_property_single_list[0]+','
-        result_propertys2=result_propertys2+type_name.lower()+'.set'+str_property_single_list[0].title()+'((String)struceAttr['+str(i)+']);'
+        #result_propertys2=result_propertys2+type_name.lower()+'.set'+str_property_single_list[0].title()+'((String)struceAttr['+str(i)+']);'
+        result_propertys2 = result_propertys2 + type_name.lower() + '.set' + str_property_single_list[0].replace('_', '').upper() + '((String)struceAttr[' + str(i) + ']);'
         i+=1
     result_propertys1=result_propertys1[:-1]
     resultstr=resultstr+result_propertys+'STRUCT struct = new STRUCT(structdescriptor,ps.getConnection(),record);\
